@@ -1,0 +1,12 @@
+# GitLab Pages: publishes the content of this folder at
+# https://<username>.gitlab.io/<project-name>/
+pages:
+  stage: deploy
+  script:
+    - mkdir -p public
+    - cp -r index.html logos public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
