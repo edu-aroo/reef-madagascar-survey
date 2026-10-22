@@ -37,12 +37,12 @@ const SURVEY = {
     {
       "src": "assets/img/logos/ihsm.png",
       "alt": "IH.SM — Université de Toliara",
-      "url": ""
+      "url": "https://ihsm.mg/"
     },
     {
       "src": "assets/img/logos/fapbm.png",
       "alt": "FAPBM",
-      "url": ""
+      "url": "https://www.fapbm.org/en/home/"
     }
   ],
   "intro": [
@@ -50,7 +50,7 @@ const SURVEY = {
     "Elle s'adresse aux gestionnaires d'AMP/LMMA, ONG, associations, institutions publiques, instituts de recherche et partenaires impliqués dans le suivi ou la restauration des récifs coralliens.",
     "Une seule réponse par organisation. Vos réponses sont enregistrées automatiquement sur cet appareil : vous pouvez interrompre la saisie et la reprendre plus tard depuis le même navigateur."
   ],
-  "privacy": "Les informations recueillies servent uniquement à cette étude. Les résultats seront présentés de manière agrégée. [Adapter selon vos engagements de confidentialité.]",
+  "privacy": "Les informations recueillies servent uniquement à cette étude. Les résultats seront présentés de manière agrégée.",
   "consentLabel": "J'accepte que les informations fournies soient utilisées dans le cadre de cette étude, selon les conditions décrites ci-dessus.",
   "heroPhoto": "recif-empereurs",
   "introPhotos": [
