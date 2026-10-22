@@ -1,76 +1,112 @@
 /**
- * Google Apps Script – receives survey answers from the web form and
- * appends one row per submission to the "Reponses" sheet.
+ * Réception des réponses de l'enquête « récifs coralliens » → Google Sheets
+ * ------------------------------------------------------------------------------
+ * À coller dans : Google Sheet > Extensions > Apps Script (script lié à la feuille).
+ * Voir README.md, étape 2, pour le déploiement en « Application Web ».
  *
- * Setup (see GUIDE.md, step 2):
- *  1. Create a Google Sheet  ->  Extensions > Apps Script
- *  2. Paste this file, save, run `setup` once (authorise when asked)
- *  3. Deploy > New deployment > Web app
- *       Execute as: Me   |   Who has access: Anyone
- *  4. Copy the /exec URL into CONFIG.SCRIPT_URL in index.html
- *
- * New fields sent by the form are added automatically as new columns,
- * so you can change the questionnaire without touching this script.
+ * Onglets créés automatiquement :
+ *   - Reponses : une ligne par organisation répondante (sections A à L)
+ *   - Journal  : erreurs éventuelles
+ * Les colonnes manquantes sont ajoutées à la volée : modifier le questionnaire
+ * ne nécessite pas de modifier ce script.
  */
 
-const SHEET_NAME = 'Reponses';
-const NOTIFY_EMAIL = '';   // optional: your e-mail to receive a notification per response
-
-function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sh = ss.getSheetByName(SHEET_NAME);
-  if (!sh) sh = ss.insertSheet(SHEET_NAME);
-  if (sh.getLastRow() === 0) {
-    sh.appendRow(['received_at', 'submission_id', 'submitted_at_client', 'survey_version']);
-    sh.setFrozenRows(1);
-  }
-}
+const SHEET_RESPONSES = "Reponses";
+const SHEET_LOG = "Journal";
+// Facultatif : adresse e-mail qui reçoit une notification à chaque réponse
+const NOTIFY_EMAIL = "";
 
 function doPost(e) {
   const lock = LockService.getScriptLock();
-  lock.waitLock(30000);                       // avoid two submissions writing the same row
+  lock.waitLock(30000);
   try {
     const data = JSON.parse(e.postData.contents);
-    if (data.website) return out_({ status: 'ignored' });   // honeypot (spam)
+
+    // Champ piège anti-robots : rempli = soumission ignorée
+    if (data.website) return json_({ ok: true });
+    if (!data.response_id || !data.general) throw new Error("Données incomplètes");
 
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    let sh = ss.getSheetByName(SHEET_NAME);
-    if (!sh) { setup(); sh = ss.getSheetByName(SHEET_NAME); }
 
-    // Current header; append any new keys as new columns
-    let headers = sh.getRange(1, 1, 1, Math.max(sh.getLastColumn(), 1)).getValues()[0].filter(String);
-    const newKeys = Object.keys(data).filter(k => k !== 'website' && headers.indexOf(k) === -1);
-    if (newKeys.length) {
-      sh.getRange(1, headers.length + 1, 1, newKeys.length).setValues([newKeys]);
-      headers = headers.concat(newKeys);
-    }
+    // Doublon (double-clic, renvoi après coupure réseau) : on ne réenregistre pas
+    if (alreadyStored_(ss, data.response_id)) return json_({ ok: true, duplicate: true, id: data.response_id });
 
-    data.received_at = new Date();
-    // Store everything as text (prefix ') so Sheets does not reformat e.g. "1–3" or "2; 3"
-    const row = headers.map(h => {
-      const v = data[h];
-      if (v === undefined || v === null || v === '') return '';
-      if (h === 'received_at') return v;
-      return typeof v === 'string' ? "'" + v : v;
-    });
-    sh.appendRow(row);
+    const meta = {
+      response_id: data.response_id,
+      horodatage_serveur: new Date(),
+      survey_version: data.survey_version,
+      started_at: data.started_at,
+      submitted_at_client: data.submitted_at_client,
+      duration_min: data.duration_min
+    };
+    appendObject_(ss, SHEET_RESPONSES, Object.assign({}, meta, data.general));
 
     if (NOTIFY_EMAIL) {
-      MailApp.sendEmail(NOTIFY_EMAIL, 'Nouvelle réponse – enquête récifs',
-        'Organisation : ' + (data.q001 || '?') + '\nRéférence : ' + data.submission_id);
+      MailApp.sendEmail(NOTIFY_EMAIL, "Enquête récifs — nouvelle réponse",
+        "Organisation : " + (data.general.q001 || "?") + "\nRéférence : " + data.response_id.slice(0, 8).toUpperCase());
     }
-    return out_({ status: 'ok', id: data.submission_id });
+    return json_({ ok: true, id: data.response_id });
   } catch (err) {
-    return out_({ status: 'error', message: String(err) });
+    try {
+      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const log = ss.getSheetByName(SHEET_LOG) || ss.insertSheet(SHEET_LOG);
+      log.appendRow([new Date(), String(err), (e && e.postData) ? e.postData.contents.slice(0, 2000) : ""]);
+    } catch (ignored) {}
+    return json_({ ok: false, error: String(err) });
   } finally {
     lock.releaseLock();
   }
 }
 
+// Test rapide : ouvrir l'URL /exec dans le navigateur doit afficher {"ok":true,...}
 function doGet() {
-  return out_({ status: 'ok', message: 'Survey endpoint is running.' });
+  return json_({ ok: true, message: "Service de collecte actif" });
 }
 
-function out_(obj) {
+/* ----------------------------------------------------------------- utilitaires */
+
+function json_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+function alreadyStored_(ss, id) {
+  const sh = ss.getSheetByName(SHEET_RESPONSES);
+  if (!sh || sh.getLastRow() < 2) return false;
+  const found = sh.getRange(2, 1, sh.getLastRow() - 1, 1).createTextFinder(id).matchEntireCell(true).findNext();
+  return !!found;
+}
+
+/** Ajoute une ligne ; crée les colonnes manquantes à la volée (l'ordre des colonnes reste stable). */
+function appendObject_(ss, name, obj) {
+  const sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  const lastCol = sh.getLastColumn();
+  let headers = lastCol > 0 ? sh.getRange(1, 1, 1, lastCol).getValues()[0] : [];
+  const missing = Object.keys(obj).filter(function (k) { return headers.indexOf(k) === -1; });
+  if (missing.length) {
+    headers = headers.concat(missing);
+    sh.getRange(1, 1, 1, headers.length).setValues([headers]).setFontWeight("bold");
+    sh.setFrozenRows(1);
+  }
+  const row = headers.map(function (h) { return clean_(obj[h]); });
+  // Format texte pour éviter les conversions automatiques (« 1–3 », « 2; 3 », dates…)
+  const range = sh.getRange(sh.getLastRow() + 1, 1, 1, row.length);
+  range.setNumberFormat("@");
+  const iDate = headers.indexOf("horodatage_serveur");
+  if (iDate >= 0) range.getCell(1, iDate + 1).setNumberFormat("yyyy-mm-dd hh:mm:ss");
+  range.setValues([row]);
+}
+
+/** Évite l'interprétation en formule (=, +, -, @). */
+function clean_(v) {
+  if (v === undefined || v === null) return "";
+  if (v instanceof Date || typeof v === "number" || typeof v === "boolean") return v;
+  const s = String(v);
+  if (/^[=+\-@]/.test(s)) return "'" + s;
+  return s;
+}
+
+/** À exécuter une fois depuis l'éditeur pour accorder les autorisations. */
+function autoriser() {
+  SpreadsheetApp.getActiveSpreadsheet().getName();
+  if (NOTIFY_EMAIL) MailApp.getRemainingDailyQuota();
 }
