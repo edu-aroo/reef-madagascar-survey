@@ -164,6 +164,7 @@
     mail.textContent = META.contactName + " — " + META.contactEmail;
     mail.href = "mailto:" + META.contactEmail;
     $("#footerYear").textContent = new Date().getFullYear();
+    $("#headerYear").textContent = new Date().getFullYear();
 
     const logos = $("#logos");
     logos.innerHTML = META.logos.map(l => {
@@ -327,6 +328,8 @@
     if (step.kind === "intro") {
       html = `<div class="step-head"><p class="eyebrow">Présentation</p><h2>${esc(META.title)}</h2></div>
         <div class="intro">${META.intro.map(p => `<p>${esc(p)}</p>`).join("")}</div>
+        ${META.draftNote ? `<div class="notice"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M17 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7l-4-4zm-5 16a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm3-10H5V5h10v4z"/></svg>
+        <div><strong>Enregistrement automatique</strong><p>${esc(META.draftNote)}</p></div></div>` : ""}
         ${(META.introPhotos || []).length ? `<div class="photo-mosaic">${META.introPhotos.map(k => photoFigure(photoByKey(k))).join("")}</div>` : ""}
         <div class="notice"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
           <div><strong>Confidentialité</strong><p>${esc(META.privacy)}</p></div></div>

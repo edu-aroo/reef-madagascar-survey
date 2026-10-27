@@ -48,8 +48,9 @@ const SURVEY = {
   "intro": [
     "Cette enquête vise à dresser un état des lieux des pratiques de suivi écologique et de restauration des récifs coralliens à Madagascar : méthodes et protocoles utilisés, moyens humains et financiers, contraintes rencontrées et besoins.",
     "Elle s'adresse aux gestionnaires d'AMP/LMMA, ONG, associations, institutions publiques, instituts de recherche et partenaires impliqués dans le suivi ou la restauration des récifs coralliens.",
-    "Une seule réponse par organisation. Vos réponses sont enregistrées automatiquement sur cet appareil : vous pouvez interrompre la saisie et la reprendre plus tard depuis le même navigateur."
+    "Une seule réponse par organisation."
   ],
+  "draftNote": "Vos réponses sont enregistrées automatiquement sur cet appareil : vous pouvez interrompre la saisie et la reprendre plus tard depuis le même navigateur.",
   "privacy": "Les informations recueillies servent uniquement à cette étude. Les résultats seront présentés de manière agrégée.",
   "consentLabel": "J'accepte que les informations fournies soient utilisées dans le cadre de cette étude, selon les conditions décrites ci-dessus.",
   "heroPhoto": "recif-empereurs",
@@ -67,7 +68,7 @@ const SURVEY = {
     "key": "recif-acropora",
     "src": "assets/img/photos/recif-acropora.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Coral_%28Acropora_clathrata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_53.jpg/1280px-Coral_%28Acropora_clathrata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_53.jpg",
-    "caption": "Acropora clathrata, Nosy Iranja",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Coral_%28Acropora_clathrata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_53.jpg"
@@ -76,7 +77,7 @@ const SURVEY = {
     "key": "recif-damoiselles",
     "src": "assets/img/photos/recif-damoiselles.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Damisela_de_tres_bandas_%28Dascyllus_abudafur%29_en_un_coral_%28Acropora_hemprichii%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_51.jpg/1280px-Damisela_de_tres_bandas_%28Dascyllus_abudafur%29_en_un_coral_%28Acropora_hemprichii%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_51.jpg",
-    "caption": "Dascyllus abudafur sur Acropora hemprichii, Nosy Tanikely",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Damisela_de_tres_bandas_%28Dascyllus_abudafur%29_en_un_coral_%28Acropora_hemprichii%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_51.jpg"
@@ -85,7 +86,7 @@ const SURVEY = {
     "key": "recif-poissons-clowns",
     "src": "assets/img/photos/recif-poissons-clowns.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Peces_payaso_de_Madagascar_%28Amphiprion_latifasciatus%29_en_una_an%C3%A9mona_perla_de_cristal_%28Heteractis_aurora%29%2C_Ambalihabe%2C_Madagascar%2C_2025-09-16%2C_DD_117.jpg/1280px-Peces_payaso_de_Madagascar_%28Amphiprion_latifasciatus%29_en_una_an%C3%A9mona_perla_de_cristal_%28Heteractis_aurora%29%2C_Ambalihabe%2C_Madagascar%2C_2025-09-16%2C_DD_117.jpg",
-    "caption": "Poissons-clowns de Madagascar (Amphiprion latifasciatus), Ambalihabe",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Peces_payaso_de_Madagascar_%28Amphiprion_latifasciatus%29_en_una_an%C3%A9mona_perla_de_cristal_%28Heteractis_aurora%29%2C_Ambalihabe%2C_Madagascar%2C_2025-09-16%2C_DD_117.jpg"
@@ -94,7 +95,7 @@ const SURVEY = {
     "key": "recif-benitier",
     "src": "assets/img/photos/recif-benitier.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Almeja_gigante_%28Tridacna_maxima%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_144.jpg/1280px-Almeja_gigante_%28Tridacna_maxima%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_144.jpg",
-    "caption": "Bénitier (Tridacna maxima), Nosy Antanimora",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Almeja_gigante_%28Tridacna_maxima%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_144.jpg"
@@ -103,7 +104,7 @@ const SURVEY = {
     "key": "recif-fusiliers",
     "src": "assets/img/photos/recif-fusiliers.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Fusilero_%28Caesio_varilineata%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_150.jpg/1280px-Fusilero_%28Caesio_varilineata%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_150.jpg",
-    "caption": "Fusiliers (Caesio varilineata), Nosy Antanimora",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Fusilero_%28Caesio_varilineata%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_150.jpg"
@@ -112,7 +113,7 @@ const SURVEY = {
     "key": "recif-acropora-2",
     "src": "assets/img/photos/recif-acropora-2.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Coral_%28Acropora_gemmifera%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_49.jpg/1280px-Coral_%28Acropora_gemmifera%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_49.jpg",
-    "caption": "Acropora gemmifera, Nosy Tanikely",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Coral_%28Acropora_gemmifera%29%2C_Nosy_Tanikely%2C_Madagascar%2C_2025-09-20%2C_DD_49.jpg"
@@ -121,7 +122,7 @@ const SURVEY = {
     "key": "recif-perroquet",
     "src": "assets/img/photos/recif-perroquet.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Pez_loro_manchado_%28Cetoscarus_ocellatus%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_105.jpg/1280px-Pez_loro_manchado_%28Cetoscarus_ocellatus%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_105.jpg",
-    "caption": "Poisson-perroquet (Cetoscarus ocellatus), Nosy Antanimora",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Pez_loro_manchado_%28Cetoscarus_ocellatus%29%2C_Nosy_Antanimora%2C_Madagascar%2C_2025-09-15%2C_DD_105.jpg"
@@ -130,7 +131,7 @@ const SURVEY = {
     "key": "recif-empereurs",
     "src": "assets/img/photos/recif-empereurs.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Grupo_de_peces_emperador_estriados_%28Gnathodentex_aureolineatus%29%2C_Nosy_Kalakajoro%2C_Madagascar%2C_2025-09-14%2C_DD_03.jpg/1280px-Grupo_de_peces_emperador_estriados_%28Gnathodentex_aureolineatus%29%2C_Nosy_Kalakajoro%2C_Madagascar%2C_2025-09-14%2C_DD_03.jpg",
-    "caption": "Empereurs (Gnathodentex aureolineatus), Nosy Kalakajoro",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Grupo_de_peces_emperador_estriados_%28Gnathodentex_aureolineatus%29%2C_Nosy_Kalakajoro%2C_Madagascar%2C_2025-09-14%2C_DD_03.jpg"
@@ -139,7 +140,7 @@ const SURVEY = {
     "key": "recif-etoile",
     "src": "assets/img/photos/recif-etoile.jpg",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Estrella_de_mar_azul_%28Linckia_laevigata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_29.jpg/1280px-Estrella_de_mar_azul_%28Linckia_laevigata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_29.jpg",
-    "caption": "Étoile de mer bleue (Linckia laevigata), Nosy Iranja",
+    "caption": "",
     "credit": "Diego Delso",
     "license": "CC BY-SA 4.0",
     "page": "https://commons.wikimedia.org/wiki/File:Estrella_de_mar_azul_%28Linckia_laevigata%29%2C_Nosy_Iranja%2C_Madagascar%2C_2025-09-17%2C_DD_29.jpg"
