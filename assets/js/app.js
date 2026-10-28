@@ -8,6 +8,7 @@
   const META = SURVEY.META;
   const MAX_METHODS = SURVEY.MAX_METHODS || 3;
   const STORE_KEY = "recifs-enquete-draft-v" + META.version;
+  const STEP_DEPS = new Set(SURVEY.STEPS.filter(s => s.showIf).map(s => s.showIf.q));   // questions qui affichent/masquent une étape
   const HAS_METHODS = Array.isArray(SURVEY.METHOD_OPTIONS);   // blocs répétés par méthode (enquête herbiers) — absent ici
   const QDEF = {};
   SURVEY.STEPS.forEach(s => s.questions.forEach(q => { QDEF[q.id] = q; }));
@@ -461,6 +462,14 @@
     updateVisibility(step);
 
     // q14 / q17 modifient la liste des étapes
+    // une étape conditionnelle (ex. section D ← Q32) : recalcul de la liste des étapes
+    if (!HAS_METHODS && STEP_DEPS.has(qid)) {
+      const curId = step.id;
+      steps = buildSteps();
+      state.current = Math.max(0, steps.findIndex(s => s.id === curId));
+      state.maxReached = Math.min(state.maxReached, steps.length - 1);
+      renderSidebar();
+    }
     if (HAS_METHODS && ["q14", "q17", "q17_principales"].includes(qid) || (qid === "q17" && e.target.dataset.sub === "autre")) {
       const curId = step.id;
       steps = buildSteps();

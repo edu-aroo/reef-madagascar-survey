@@ -19,20 +19,21 @@
      showIf           → { q:'q09', starts:'Oui' } | { q:'q83', eq:'Oui' } |
                         { q:'q50', any:[...] } | { q:'q35', notOnly:'Aucun suivi' } |
                         { q:'q14', ne:'Non' } | { q:'q19', in:[...] }
+     showIf sur une étape (ex. section D) : l'étape entière est masquée/affichée
      Les options « Aucun… » et « Ne sait pas » d'un choix multiple sont exclusives.
    ===================================================================== */
 
 const SURVEY = {
   META: {
-  "version": "1.0",
+  "version": "2.0",
   "title": "Enquête nationale sur le suivi écologique et la restauration des récifs coralliens à Madagascar",
   "subtitle": "Inventaire des méthodes, des moyens et des besoins des organisations, en vue d'un protocole national harmonisé",
   "organizer": "Fondation pour les Aires Protégées et la Biodiversité de Madagascar (FAPBM), en collaboration avec l’Institut Halieutique et des Sciences Marines (IH.SM) – Université de Toliara",
   "contactName": "José Randrianandrasana",
   "contactEmail": "jossarobidy@gmail.com",
   "deadline": "15 Novembre",
-  "estimatedTime": "30 à 45 min",
-  "appsScriptUrl": "https://script.google.com/macros/s/AKfycbxDKEPLKRuq5gGCRa-DEYExU09CilJHYr8TuKBAGoaGyQON2HI9WxCSxBmNiGmbf9cN/exec",
+  "estimatedTime": "30 à 60 min",
+  "appsScriptUrl": "https://script.google.com/macros/s/AKfycbyKsRpeax7ynQ0Se_KWogSS6DxGVfVYGn3qTedyzvxdXunhCZp6PR839pnk9-FMvYCi/exec",
   "logos": [
     {
       "src": "assets/img/logos/ihsm.png",
@@ -659,16 +660,14 @@ const SURVEY = {
           "Mortalité corallienne",
           "Blanchissement",
           "Maladies coralliennes",
-          "Abondance des poissons",
-          "Biomasse des poissons",
-          "Diversité des poissons",
-          "Espèces clés (herbivores, prédateurs)",
-          "Invertébrés (oursins, holothuries)",
+          "Poissons",
+          "Macro-invertébrés",
           "Algues",
           "Paramètres physico-chimiques (température, salinité, turbidité)",
           "Autre"
         ],
-        "other": true
+        "other": true,
+        "help": "Les questions suivantes s'affichent en fonction des indicateurs cochés (coraux, poissons, macro-invertébrés, blanchissement)."
       },
       {
         "id": "q033",
@@ -680,7 +679,17 @@ const SURVEY = {
           "Coraux juvéniles (< 5 cm)",
           "Coraux adultes",
           "Les deux"
-        ]
+        ],
+        "showIf": {
+          "q": "q032",
+          "any": [
+            "Couverture corallienne (%)",
+            "Diversité corallienne",
+            "Recrutement corallien",
+            "Mortalité corallienne",
+            "Maladies coralliennes"
+          ]
+        }
       },
       {
         "id": "q034",
@@ -693,7 +702,17 @@ const SURVEY = {
           "Famille",
           "Genre",
           "Espèce"
-        ]
+        ],
+        "showIf": {
+          "q": "q032",
+          "any": [
+            "Couverture corallienne (%)",
+            "Diversité corallienne",
+            "Recrutement corallien",
+            "Mortalité corallienne",
+            "Maladies coralliennes"
+          ]
+        }
       },
       {
         "id": "q035",
@@ -711,6 +730,13 @@ const SURVEY = {
         "detail": {
           "label": "Si aucune méthode n'est utilisée, préciser pourquoi. Pour une autre méthode, préciser ses dimensions",
           "type": "text"
+        },
+        "showIf": {
+          "q": "q033",
+          "in": [
+            "Coraux juvéniles (< 5 cm)",
+            "Les deux"
+          ]
         }
       },
       {
@@ -763,6 +789,13 @@ const SURVEY = {
         "detail": {
           "label": "Pour une autre méthode, préciser ses dimensions",
           "type": "text"
+        },
+        "showIf": {
+          "q": "q033",
+          "in": [
+            "Coraux adultes",
+            "Les deux"
+          ]
         }
       },
       {
@@ -807,7 +840,6 @@ const SURVEY = {
         "required": true,
         "options": [
           "Transect couloir",
-          "Transect de 50 m × 5 m",
           "Comptage circulaire",
           "Autre"
         ],
@@ -815,6 +847,10 @@ const SURVEY = {
         "detail": {
           "label": "Pour une autre méthode, préciser",
           "type": "text"
+        },
+        "showIf": {
+          "q": "q032",
+          "eq": "Poissons"
         }
       },
       {
@@ -828,7 +864,11 @@ const SURVEY = {
           "Famille",
           "Genre",
           "Espèce"
-        ]
+        ],
+        "showIf": {
+          "q": "q032",
+          "eq": "Poissons"
+        }
       },
       {
         "id": "q043",
@@ -850,7 +890,11 @@ const SURVEY = {
           "Autre",
           "Aucun de ces paramètres"
         ],
-        "other": true
+        "other": true,
+        "showIf": {
+          "q": "q032",
+          "eq": "Poissons"
+        }
       },
       {
         "id": "q044",
@@ -863,15 +907,23 @@ const SURVEY = {
           "3",
           "Plus de 3 (préciser)"
         ],
-        "other": true
+        "other": true,
+        "showIf": {
+          "q": "q032",
+          "eq": "Poissons"
+        }
       },
       {
         "id": "q045",
         "n": 45,
-        "label": "Utilisez-vous des espèces cibles pour le suivi des macro-invertébrés ? Si oui, lesquelles et pourquoi ce choix ?",
+        "label": "Utilisez-vous des espèces cibles parmi les macro-invertébrés suivis ?",
         "type": "textarea",
         "required": true,
-        "help": "Préciser les espèces et la raison de ce choix"
+        "help": "Préciser lesquelles et la raison de ce choix.",
+        "showIf": {
+          "q": "q032",
+          "eq": "Macro-invertébrés"
+        }
       },
       {
         "id": "q046",
@@ -885,7 +937,11 @@ const SURVEY = {
           "Espèce",
           "Autre"
         ],
-        "other": true
+        "other": true,
+        "showIf": {
+          "q": "q032",
+          "eq": "Macro-invertébrés"
+        }
       },
       {
         "id": "q047",
@@ -903,6 +959,10 @@ const SURVEY = {
         "detail": {
           "label": "Pour une autre méthode, préciser ses dimensions",
           "type": "text"
+        },
+        "showIf": {
+          "q": "q032",
+          "eq": "Macro-invertébrés"
         }
       },
       {
@@ -916,7 +976,11 @@ const SURVEY = {
           "Taux de couverture",
           "Autre"
         ],
-        "other": true
+        "other": true,
+        "showIf": {
+          "q": "q032",
+          "eq": "Macro-invertébrés"
+        }
       },
       {
         "id": "q049",
@@ -929,7 +993,11 @@ const SURVEY = {
           "3",
           "Plus de 3 (préciser)"
         ],
-        "other": true
+        "other": true,
+        "showIf": {
+          "q": "q032",
+          "eq": "Macro-invertébrés"
+        }
       },
       {
         "id": "q050",
@@ -1151,7 +1219,11 @@ const SURVEY = {
           "starts": "Oui"
         }
       }
-    ]
+    ],
+    "showIf": {
+      "q": "q032",
+      "eq": "Blanchissement"
+    }
   },
   {
     "key": "E",

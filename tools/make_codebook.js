@@ -8,7 +8,7 @@ const hasOther = x => x.other;
 for (const st of S.STEPS) {
   for (const x of st.questions) {
     const opts = x.options || [];
-    const cond = x.showIf ? JSON.stringify(x.showIf) : "";
+    const cond = x.showIf ? JSON.stringify(x.showIf) : (st.showIf ? JSON.stringify(st.showIf) : "");   // condition de l'étape (ex. section D)
     const base = { sheet: "Reponses", section: st.key, step: st.title, n: x.n, required: x.required ? "Oui" : "Non", condition: cond };
     if (x.type === "grid") {
       for (const r of x.rows) rows.push({ ...base, variable: `${x.id}_${r.key}`, label: `${x.label} — ${r.label}`, type: "grid", options: "" });
